@@ -1,0 +1,1360 @@
+---
+title: "Social Media Influencers 👥 in 2️⃣0️⃣2️⃣2️⃣"
+author: "Giulia Bertolo"
+date: "15/11/2023"
+output:
+  ioslides_presentation:
+    css: main.css
+    incremental: yes
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r echo=FALSE}
+#import librerie
+library(readxl)
+library(readr)
+library(tibble)
+library(magrittr)
+library(dplyr)
+library(ggplot2) #graphics
+library(plotly) #graphics
+#library(fmsb) #for radar graphics
+library(wordcloud)#for wordcloud graphics
+#library(treemap)#fro treempas graphics
+library("data.table")
+library(EBImage)
+library(gridExtra)
+library(grid)
+
+#import Excel
+youtube_jun <- read_excel('Social Media Influencers in 2022 - Copia/Youtube_jun.xlsx')
+youtube_sep <- read_excel('Social Media Influencers in 2022 - Copia/Youtube_sep.xlsx')
+youtube_glo <- read_excel('Social Media Influencers in 2022 - Copia/Youtube_glo.xlsx')
+youtube_nov <- read_excel('Social Media Influencers in 2022 - Copia/Youtube_nov.xlsx')
+youtube_dec <- read_excel('Social Media Influencers in 2022 - Copia/Youtube_dec.xlsx')
+
+tiktok_jun <- read_excel('Social Media Influencers in 2022 - Copia/Tiktok_jun.xlsx')
+tiktok_sep <- read_excel('Social Media Influencers in 2022 - Copia/Tiktok_sep.xlsx')
+tiktok_glo <- read_excel('Social Media Influencers in 2022 - Copia/Tiktok_glo.xlsx')
+tiktok_nov <- read_excel('Social Media Influencers in 2022 - Copia/Tiktok_nov.xlsx')
+tiktok_dec <- read_excel('Social Media Influencers in 2022 - Copia/Tiktok_dec.xlsx')
+
+instagram_jun <- read_excel('Social Media Influencers in 2022 - Copia/Instagram_jun.xlsx')
+instagram_sep <- read_excel('Social Media Influencers in 2022 - Copia/Instagram_sep.xlsx')
+instagram_glo <- read_excel('Social Media Influencers in 2022 - Copia/Instagram_glo.xlsx')
+instagram_nov <- read_excel('Social Media Influencers in 2022 - Copia/Instagram_nov.xlsx')
+instagram_dec <- read_excel('Social Media Influencers in 2022 - Copia/Instagram_dec.xlsx')
+
+
+youtube_glo$likes.avg <- as.numeric (youtube_glo$likes.avg)
+youtube_jun$likes.avg <- as.numeric (youtube_jun$likes.avg)
+youtube_sep$likes.avg <- as.numeric (youtube_sep$likes.avg)
+youtube_nov$likes.avg <- as.numeric (youtube_nov$likes.avg)
+youtube_dec$likes.avg <- as.numeric (youtube_dec$likes.avg)
+
+youtube_glo$likes.avg <- as.numeric (youtube_glo$likes.avg)
+youtube_jun$likes.avg <- as.numeric (youtube_jun$likes.avg)
+youtube_sep$views.avg <- as.numeric (youtube_sep$views.avg)
+youtube_nov$views.avg <- as.numeric (youtube_nov$views.avg)
+youtube_dec$views.avg <- as.numeric (youtube_dec$views.avg)
+
+youtube_glo$comments.avg <- as.numeric (youtube_glo$comments.avg)
+youtube_jun$comments.avg <- as.numeric (youtube_jun$comments.avg)
+youtube_sep$comments.avg <- as.numeric (youtube_sep$comments.avg)
+youtube_nov$comments.avg <- as.numeric (youtube_nov$comments.avg)
+youtube_dec$comments.avg <- as.numeric (youtube_dec$comments.avg)
+
+tiktok_glo$comments.avg <- as.numeric (tiktok_glo$comments.avg)
+tiktok_jun$comments.avg <- as.numeric (tiktok_jun$comments.avg)
+tiktok_sep$comments.avg <- as.numeric (tiktok_sep$comments.avg)
+tiktok_nov$comments.avg <- as.numeric (tiktok_nov$comments.avg)
+tiktok_dec$comments.avg <- as.numeric (tiktok_dec$comments.avg)
+
+tiktok_glo$shares.avg <- as.numeric (tiktok_glo$shares.avg)
+tiktok_jun$shares.avg <- as.numeric (tiktok_jun$shares.avg)
+tiktok_sep$shares.avg <- as.numeric (tiktok_sep$shares.avg)
+tiktok_nov$shares.avg <- as.numeric (tiktok_nov$shares.avg)
+tiktok_dec$shares.avg <- as.numeric (tiktok_dec$shares.avg)
+
+instagram_glo$authentic.engagement <- as.numeric (instagram_glo$authentic.engagement)
+instagram_sep$authentic.engagement <- as.numeric (instagram_sep$authentic.engagement)
+instagram_nov$authentic.engagement <- as.numeric (instagram_nov$authentic.engagement)
+instagram_dec$authentic.engagement <- as.numeric (instagram_dec$authentic.engagement)
+
+# COMMENTARE PER MARKUP!!!
+
+#refactoring Instagram
+
+# instagram_jun %>%
+#   select(instagram.nickname, influencer.name, followers, view.avg, likes.avg, comments.avg, category.1, category.2) %>%
+#   relocate(instagram.nickname, influencer.name, followers, category.1, category.2, view.avg, likes.avg,
+#            comments.avg)
+# 
+# instagram_sep %>%
+#   select(instagram.nickname, influencer.name, followers,country, authentic.engagement, engagement.average,
+#          category.1, category.2) %>%
+#   relocate(instagram.nickname, influencer.name, followers, category.1, category.2, country,
+#            authentic.engagement, engagement.average)
+# 
+# instagram_nov %>%
+#   select(instagram.nickname, influencer.name, followers,country, authentic.engagement, engagement.average,
+#          category.1, category.2) %>%
+#  relocate(instagram.nickname, influencer.name, followers, category.1, category.2, country,
+#           authentic.engagement, engagement.average)
+# 
+# instagram_dec %>%
+#   select(instagram.nickname, influencer.name, followers,country, authentic.engagement, engagement.average,
+#          category.1, category.2) %>%
+#  relocate(instagram.nickname, influencer.name, followers, category.1, category.2, country,
+#           authentic.engagement, engagement.average)
+# 
+# instagram_glo %>%
+#   select(instagram.nickname, influencer.name, followers,country, authentic.engagement, engagement.average, diff, category.1, category.2) %>%
+#  relocate(instagram.nickname, influencer.name, followers, category.1, category.2, country, authentic.engagement,
+#            engagement.average, diff)
+# 
+# #refactoring Tiktok
+# 
+# tiktok_jun %>%
+# select(tiktok.nickname, tiktoker.name, followers, views.avg, likes.avg, comments.avg, shares.avg)
+# 
+# tiktok_sep %>%
+#   select(tiktok.nickname, tiktoker.name, followers, views.avg, likes.avg, comments.avg, shares.avg)
+# 
+# tiktok_nov %>%
+#   select(tiktok.nickname, tiktoker.name, followers, views.avg, likes.avg, comments.avg, shares.avg)
+# 
+# tiktok_dec %>%
+#   select(tiktok.nickname, tiktoker.name, followers, views.avg, likes.avg, comments.avg, shares.avg)
+# 
+# tiktok_glo <- (tiktok_glo %>%
+#   select(tiktok.nickname, tiktoker.name, followers, views.avg, likes.avg, comments.avg, shares.avg))
+# 
+# #refactoring Youtube
+# 
+# youtube_jun %>%
+#  relocate(channel.name, youtuber.name, followers, category.1, category.2, country, views.avg, likes.avg,
+#           comments.avg)
+# 
+# youtube_sep %>%
+#   select(channel.name, youtuber.name, followers, category.1, category.2, country, views.avg, likes.avg,
+#           comments.avg) %>%
+#   relocate(channel.name, youtuber.name, followers, category.1, category.2, country, views.avg,
+#            likes.avg, comments.avg)
+# 
+# youtube_nov %>%
+#   select(channel.name, youtuber.name, followers, category.1, category.2, country, views.avg, likes.avg,
+#           comments.avg) %>%
+#   relocate(channel.name, youtuber.name, followers, category.1, category.2, country, views.avg, likes.avg,
+#            comments.avg)
+# 
+# youtube_dec %>%
+#   select(channel.name, youtuber.name, followers, category.1, category.2, country, views.avg, likes.avg,
+#           comments.avg) %>%
+#   relocate(channel.name, youtuber.name, followers, category.1, category.2, country, views.avg, likes.avg,
+#           comments.avg)
+# 
+# youtube_glo %>%
+#  relocate(channel.name, youtuber.name, followers, category.1, country, views.avg, likes.avg,
+#           comments.avg)
+# # COMMENTARE PER MARKUP!!!
+```
+
+## <b>Introduzione</b>
+
+<p>L'obbiettivo di questa analisi è abbastanza intuitivo: esaminare la crescita 📈 globale dei social media e dei suoi corrispondenti utenti 👥 nel 2022. I social media che il dataset prende in considerazione sono rispettivamente YouTube, TikTok e Instagram.</p>
+
+```{r echo=FALSE}
+img <- readImage("social.png")
+display(img, method = "raster")
+```
+
+## <b>Storia dei dati</b>
+
+<p>Il dataset è stato individuato su Kaggle. Diversamente da come citato dall'autore, il dataset globale propone solo una frazione di dati nell'arco temporale previsto, per cui l'analisi si concentrerà più nello specifico per ogni piattaforma su quattro mesi 🗓️ del 2022: giugno, settembre, novembre e dicembre, oltre che su una panoramica generale del 2022 sempre distinta per le tre piattaforme.</p>
+
+<p>Il dataset possedeva fin dall'inizio moltissime criticità 🤯, in primo luogo la presenza di features incompatibili tra dataset della stessa piattaforma. Nelle diverse fasi di produzione, poi, un'altra problematica riscontrata è stata la scoperta di valori errati o incoerenti. È stato fatto chiaramente un lavoro di formattazione dovuto dei dataset (trasformazioni M e K). Questa fase di refactoring si è protratta anche durante tutta la fase di messa a punto del markdown che ha rallentato le tempistiche di realizzazione creando non pochi disagi😡.</p>
+
+## <b>Panoramica delle piattaforme</b>
+
+```{r echo=FALSE}
+#Andamento principale di TikTok: media delle views vs media dei followers
+tiktok_fv <- (tiktok_glo %>% 
+                select(followers, views.avg) 
+              )
+tiktok_fv <- (colMeans(tiktok_fv))
+tiktok_fv <- as.data.frame.list(tiktok_fv)
+categorie = colnames(tiktok_fv)
+values = c(tiktok_fv$followers, tiktok_fv$views.avg) 
+fig_1 <- plot_ly(labels = ~categorie, values = ~values)
+fig_1 <- fig_1 %>% add_pie(hole = 0.6)
+fig_1 <- fig_1 %>% layout(title = "Andamento principale di TikTok🍩: media delle views👓 vs media dei followers👥")
+fig_1
+```
+
+<p>ad es. 31.3% è la media delle views👓 basata sui 1000 utenti👥 (chiamati comunemente "influencer") di TikTok che il dataset prende in analisi.</p>
+
+```{r echo=FALSE}
+#Andamento principale di Youtube: media delle views vs media dei followers
+youtube_fv <- (youtube_glo %>%
+                 select(followers, views.avg)
+               )
+youtube_fv$views.avg <- as.numeric(youtube_fv$views.avg)
+youtube_fv <- (colMeans(youtube_fv))
+youtube_fv <- as.data.frame.list(youtube_fv)
+categorie = colnames(youtube_fv)
+values = c(youtube_fv$followers, youtube_fv$views.avg)
+fig_2 <- plot_ly(labels = ~categorie, values = ~values)
+fig_2 <- fig_2 %>% add_pie(hole = 0.6)
+fig_2 <- fig_2 %>% layout(title = "Andamento principale di Youtube🍩: media delle views👓 vs media dei followers👥")
+fig_2
+```
+
+<p>Per quanto riguarda Instagram, i dataset relativi a questa piattaforma non presentano le stesse features incontrate nelle altre piattaforme. Di conseguenza in questo caso verrà graficata solo una panoramica dei followers👥.</p>
+
+```{r echo=FALSE}
+#Andamento principale di Instagram: media dei followers
+instagram_fv <- (instagram_glo %>% 
+                        select(followers) 
+                 )
+instagram_fv <- (colMeans(instagram_fv))
+instagram_fv <- as.data.frame.list(instagram_fv)
+categorie = colnames(instagram_fv)
+values = c(instagram_fv$followers) 
+fig_3 <- plot_ly(labels = ~categorie, values = ~values)
+fig_3 <- fig_3 %>% add_pie(hole = 0.6)
+fig_3 <- fig_3 %>% layout(title = "Andamento principale di Instagram🍩: media dei followers👥")
+fig_3
+```
+
+## <b>Coinvolgimento del pubblico: TikTok vs Youtube</b>
+
+```{r echo=FALSE}
+#Coinvolgimento degli utenti TikTok: istogramma
+tiktok_lcs <- (tiktok_glo %>%
+                 select(likes.avg, comments.avg, shares.avg)
+               )
+tiktok_lcs$shares.avg <- as.numeric(tiktok_lcs$shares.avg)
+tiktok_lcs$comments.avg <- as.numeric(tiktok_lcs$comments.avg)
+tiktok_lcs <- (colMeans(tiktok_lcs))
+tiktok_lcs <- as.data.frame.list(tiktok_lcs)
+sub_tiktok_lcs <- (data.frame(avg=c(tiktok_lcs$likes.avg,tiktok_lcs$comments.avg,tiktok_lcs$shares.avg),
+                             names=colnames(tiktok_lcs)))
+fig_4 <- plot_ly(y=sub_tiktok_lcs$avg, x=sub_tiktok_lcs$names, type = "bar", color=I("blue"))
+fig_4 <- fig_4 %>% layout(title = 'Coinvolgimento del pubblico👨‍👩‍👧‍👦 di TikTok: likes👍, commenti🗨 e condivisioni🔁')
+fig_4
+```
+
+<p>Per YouTube verranno analizzati solo likes👍 & commenti🗨️ per limitazione del dataset.</p>
+
+```{r echo=FALSE}
+#Coinvolgimento degli utenti YouTube: istogramma
+youtube_lc <- (youtube_glo %>%
+                 select(likes.avg, comments.avg)
+               )
+youtube_lc$likes.avg <- as.numeric(youtube_lc$likes.avg)
+youtube_lc$comments.avg <- as.numeric(youtube_lc$comments.avg)
+youtube_lc <- (colMeans(youtube_lc, na.rm=T))
+youtube_lc <- as.data.frame.list(youtube_lc)
+sub_youtube_lc <- (data.frame(avg=c(youtube_lc$likes.avg,youtube_lc$comments.avg),
+                             names=colnames(youtube_lc)))
+fig_5 <- plot_ly(y=sub_youtube_lc$avg, x=sub_youtube_lc$names, type = "bar", color=I("blue"))
+fig_5 <- fig_5 %>% layout(title = 'Coinvolgimento del pubblico👨‍👩‍👧‍👦 di YouTube: likes👍 & commenti🗨')
+fig_5
+```
+
+## <b>Quanto sono attive le piattaforme?</b>
+
+```{r echo=FALSE}
+#TikTok: likes, comments and shares
+tiktok_lcs <- (tiktok_glo %>% 
+                 select(likes.avg, comments.avg, shares.avg) 
+               )
+tiktok_lcs$likes.avg <- as.numeric ((tiktok_lcs$likes.avg))
+tiktok_lcs$comments.avg <- as.numeric ((tiktok_lcs$comments.avg))
+tiktok_lcs$shares.avg <- as.numeric ((tiktok_lcs$shares.avg))
+tiktok_lcs <- (colMeans(tiktok_lcs))
+tiktok_lcs <- as.data.frame.list(tiktok_lcs)
+categorie = colnames(tiktok_lcs)
+values = c(tiktok_lcs$likes.avg, tiktok_lcs$comments.avg, tiktok_lcs$shares.avg) 
+fig_4 <- plot_ly(tiktok_lcs, labels = ~categorie, values = ~values, type = 'pie')
+fig_4 <- fig_4 %>% layout(title = "Tiktok's🥧 likes👍, comments🗨 and shares🔁",
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+fig_4
+```
+
+```{r echo=FALSE}
+#Youtube: likes, comments and NO SHARES
+youtube_lc <- (youtube_glo %>% 
+                     select(likes.avg, comments.avg) 
+                   )
+youtube_lc$likes.avg <- as.numeric ((youtube_lc$likes.avg))
+youtube_lc$comments.avg <- as.numeric ((youtube_lc$comments.avg))
+youtube_lc <- (colMeans(youtube_lc, na.rm=T))
+youtube_lc <- as.data.frame.list(youtube_lc)
+categorie = colnames(youtube_lc)
+values = c(youtube_lc$likes.avg, youtube_lc$comments.avg) 
+fig_5 <- plot_ly(youtube_lc, labels = ~categorie, values = ~values, type = 'pie')
+fig_5 <- fig_5 %>% layout(title = "Youtube's🥧 likes👍 & comments🗨",
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+fig_5
+```
+
+## <b>Coinvolgimento del pubblico: Instagram</b>
+
+<p>authentic.engagement o tasso di coinvolgimento (Engagement Rate) è una metrica che misura le interazioni👍🗨🔁 ottenute da un profilo👤 con i suoi post📄 in rapporto al numero di follower👥. Mentre engagement.average è la media mensile/annuale degli ER per quell'influencer👤.</p>
+
+```{r echo=FALSE}
+#Coinvolgimento utenti Instagram: media delle authentic.engagement vs media dei followers
+instagram_af <- (instagram_glo %>%
+                   select(authentic.engagement, followers)
+                 )
+instagram_af <- (colMeans(instagram_af))
+instagram_af <- as.data.frame.list(instagram_af)
+categorie = colnames(instagram_af)
+values = c(instagram_af$authentic.engagement, instagram_af$followers) 
+fig <- plot_ly(instagram_af, labels = ~categorie, values = ~values, type = 'pie')
+fig <- fig %>% layout(title = 'Coinvolgimento del pubblico👨‍👩‍👧‍👦 di Instagram🥧: media delle authentic.engagement✅ \n vs media dei followers👥')
+fig
+```
+
+<p>Dalla definizione di engagement, conoscendo i followers👥 possiamo ricavare con la formula inversa il numero di interazioni👍🗨🔁.</p>
+
+```{r echo=FALSE}
+#Instagram: influencers con le maggiori interazioni 
+options(scipen=999) #togliere notazione decimale
+instagram_ii <- (instagram_glo %>%
+                   select(interactions, influencer.name) %>%
+                   filter(interactions>400000000000000) %>% #quattrocento bilioni
+                   arrange(influencer.name)
+                 )
+fig1 <- ggplot(instagram_ii, aes(x=interactions, y=influencer.name)) + geom_point(shape=1)
+fig1 <- ggplotly(fig1)
+fig1 <- fig1 %>% layout(title = 'Instagram influencers👥 con le maggiori interazioni👍🗨🔁 nel 2022')
+fig1
+```
+
+```{r echo=FALSE}
+#Instagram: influencers con le maggiori interazioni medie nel 2022
+instagram_iai <- (instagram_glo %>%
+                   select(interactions.avg, influencer.name) %>%
+                   filter(interactions.avg>400000000000000,
+                          influencer.name!="MAKE OUT HILL",
+                          influencer.name!="Khaby Lame",
+                          influencer.name!="Cardi B",
+                          influencer.name!="badgalriri"
+                          )%>%
+                  arrange(influencer.name)
+                 )
+fig1 <- ggplot(instagram_iai, aes(x=interactions.avg, y=influencer.name)) + geom_point(shape=1)
+fig1 <- ggplotly(fig1)
+fig1 <- fig1 %>% layout(title = 'Instagram influencers👥 con le maggiori interazioni medie👍🗨🔁 nel 2022')
+fig1
+```
+
+## <b>Andamento delle piattaforme nell'arco temporale</b>
+
+```{r echo=FALSE}
+#TikTok: andamento della piattaforma nell'arco temporale; jun
+tiktok_jun_vf <- (tiktok_jun %>%
+                    select(followers, views.avg)
+                  )
+tiktok_jun_vf <- (colMeans(tiktok_jun_vf))
+tiktok_jun_vf <- as.data.frame.list(tiktok_jun_vf)
+sub_tiktok_jun_vf <- (data.frame(avg=c(tiktok_jun_vf$followers,tiktok_jun_vf$views.avg),
+                             names=colnames(tiktok_jun_vf)))
+
+#TikTok: andamento della piattaforma nell'arco temporale; sep
+tiktok_sep_vf <- (tiktok_sep %>%
+                    select(followers, views.avg)
+                  )
+tiktok_sep_vf <- (colMeans(tiktok_sep_vf, na.rm=T))
+tiktok_sep_vf <- as.data.frame.list(tiktok_sep_vf)
+
+#TikTok: andamento della piattaforma nell'arco temporale; nov
+tiktok_nov_vf <- (tiktok_nov %>%
+                    select(followers, views.avg)
+                  )
+tiktok_nov_vf <- (colMeans(tiktok_nov_vf, na.rm=T))
+tiktok_nov_vf <- as.data.frame.list(tiktok_nov_vf)
+
+#TikTok: andamento della piattaforma nell'arco temporale; dec
+tiktok_dec_vf <- (tiktok_dec%>%
+                    select(followers, views.avg)
+                  )
+tiktok_dec_vf <- (colMeans(tiktok_dec_vf, na.rm=T))
+tiktok_dec_vf <- as.data.frame.list(tiktok_dec_vf)
+
+ld <- list(
+  tiktok_jun_vf,
+  tiktok_sep_vf,
+  tiktok_nov_vf,
+  tiktok_dec_vf
+  )
+union_ld <- data.table::rbindlist(ld)
+union_ld$month <- c("06/jun", "10/sep", "11/nov", "12/dec")
+
+fig <- plot_ly(union_ld, x = ~month, y = ~followers, type = 'bar', name = "followers")
+fig <- fig %>% add_trace(y = ~views.avg, name = "views.avg")
+fig <- fig %>% layout(yaxis = list(title = 'count'), barmode = 'group')
+fig <- fig %>% layout(title = "Andamento della piattaforma nell'arco temporale📅 di TikTok: views.avg👓 vs followers👥")
+fig
+```
+
+```{r echo=FALSE}
+#Youtube: andamento della piattaforma nell'arco temporale; jun
+youtube_jun_vf <- (youtube_jun %>%
+                    select(followers, views.avg)
+                  )
+youtube_jun_vf$views.avg <- as.numeric (youtube_jun_vf$views.avg)
+youtube_jun_vf <- (colMeans(youtube_jun_vf))
+youtube_jun_vf <- as.data.frame.list(youtube_jun_vf)
+sub_youtube_jun_vf <- (data.frame(avg=c(youtube_jun_vf$followers,youtube_jun_vf$views.avg),
+                             names=colnames(youtube_jun_vf)))
+fig_4 <- plot_ly(y=sub_youtube_jun_vf$avg, x=sub_youtube_jun_vf$names, type = "bar", color=I("blue"))
+# fig_4
+
+#Youtube: andamento della piattaforma nell'arco temporale; sep
+youtube_sep_vf <- (youtube_sep %>%
+                    select(followers, views.avg)
+                  )
+youtube_sep_vf$views.avg <- as.numeric (youtube_sep_vf$views.avg)
+youtube_sep_vf <- (colMeans(youtube_sep_vf, na.rm=T))
+youtube_sep_vf <- as.data.frame.list(youtube_sep_vf)
+sub_youtube_sep_vf <- (data.frame(avg=c(youtube_sep_vf$followers,youtube_sep_vf$views.avg),
+                             names=colnames(youtube_sep_vf)))
+fig_4 <- plot_ly(y=sub_youtube_sep_vf$avg, x=sub_youtube_sep_vf$names, type = "bar", color=I("blue"))
+# fig_4
+
+#Youtube: andamento della piattaforma nell'arco temporale; nov
+youtube_nov_vf <- (youtube_nov %>%
+                    select(followers, views.avg)
+                  )
+youtube_nov_vf$views.avg <- as.numeric (youtube_nov_vf$views.avg)
+youtube_nov_vf <- (colMeans(youtube_nov_vf, na.rm=T))
+youtube_nov_vf <- as.data.frame.list(youtube_nov_vf)
+sub_youtube_nov_vf <- (data.frame(avg=c(youtube_nov_vf$followers,youtube_nov_vf$views.avg),
+                             names=colnames(youtube_nov_vf)))
+fig_4 <- plot_ly(y=sub_youtube_nov_vf$avg, x=sub_youtube_nov_vf$names, type = "bar", color=I("blue"))
+# fig_4
+
+#Youtube: andamento della piattaforma nell'arco temporale; dec
+#simile a nov
+youtube_dec_vf <- (youtube_dec%>%
+                    select(followers, views.avg)
+                  )
+youtube_dec_vf$views.avg <- as.numeric (youtube_dec_vf$views.avg)
+youtube_dec_vf <- (colMeans(youtube_dec_vf, na.rm=T))
+youtube_dec_vf <- as.data.frame.list(youtube_dec_vf)
+sub_youtube_dec_vf <- (data.frame(avg=c(youtube_dec_vf$followers,youtube_dec_vf$views.avg),
+                             names=colnames(youtube_dec_vf)))
+fig_4 <- plot_ly(y=sub_youtube_dec_vf$avg, x=sub_youtube_dec_vf$names, type = "bar", color=I("blue"))
+# fig_4
+
+ld <- list(
+  youtube_jun_vf,
+  youtube_sep_vf,
+  youtube_nov_vf,
+  youtube_dec_vf
+  )
+union_ld <- data.table::rbindlist(ld)
+union_ld$month <- c("06/jun", "10/sep", "11/nov", "12/dec")
+
+# data <- data.frame(month<-c("jun", "sep", "nov", "dec"), tiktok_jun_vf$followers, tiktok_sep_vf$followers, tiktok_nov_vf$followers, tiktok_dec_vf$followers)
+
+fig <- plot_ly(union_ld, x = ~month, y = ~followers, type = 'bar', name = "followers")
+fig <- fig %>% add_trace(y = ~views.avg, name = "views.avg")
+fig <- fig %>% layout(yaxis = list(title = 'count'), barmode = 'group')
+fig <- fig %>% layout(title = "Andamento della piattaforma nell'arco temporale📅 di YouTube: views.avg👓 vs followers👥")
+fig
+```
+
+
+## <b>Instagram analysis</b>
+<p>Paesi🌍 dove pubblicano contenuti i maggiori influencer👥</p>
+
+```{r echo=FALSE}
+#Instagram: paese con principali influencer wordcloud
+countryMostInflu<-(instagram_glo %>%
+                     group_by(country) %>%
+                     summarize(count = n())
+                   )
+wordcloud(words =countryMostInflu$country, freq = countryMostInflu$count, min.freq = 0, random.order=FALSE, rot.per=0.35,colors=brewer.pal(8, "Dark2"))
+```
+
+<p>Categorie 1 e 2 più diffuse nei vari paesi🌍</p>
+
+```{r echo=FALSE}
+#Instagram: categorie più diffuse nei vari paesi
+cat1MostInflu<-(instagram_glo %>%
+                     group_by(category.1) %>%
+                     summarize(count1 = n())
+                   )
+wordcloud(words =cat1MostInflu$category.1, freq = cat1MostInflu$count1, min.freq = 0, random.order=FALSE, rot.per=0.35,colors=brewer.pal(8, "Dark2"))
+
+# cat2MostInflu<-(instagram_glo %>%
+#                      group_by(category.2) %>%
+#                      summarize(count2 = n())
+#                    )
+# wordcloud(words =cat2MostInflu$category.2, freq = cat2MostInflu$count2, min.freq = 0, random.order=FALSE, rot.per=0.35,colors=brewer.pal(8, "Dark2"))
+```
+
+<p>Categorie più diffuse in Italia🇮🇹</p>
+
+```{r echo=FALSE}
+#Instagram: categorie più diffuse in italia
+cat1MostInfluIT<-(instagram_glo %>%
+                     filter(country=="Italy") %>%
+                     group_by(category.1) %>%
+                     summarize(count3 = n())
+                   )
+cat1MostInfluIT <- rbind(cat1MostInfluIT, list('Sports with a ball', 4))
+wordcloud(words =cat1MostInfluIT$category.1, freq = cat1MostInfluIT$count3, min.freq = 1, random.order=FALSE, rot.per=0.35,colors=brewer.pal(8, "Dark2"))
+
+
+# cat2MostInfluIT<-(instagram_glo %>%
+#                      filter(country=="Italy") %>%
+#                      group_by(category.2) %>%
+#                      summarize(count4 = n())
+#                    )
+# wordcloud(words =cat2MostInfluIT$category.2, freq = cat2MostInfluIT$count4, min.freq = 0, random.order=FALSE, rot.per=0.35,colors=brewer.pal(8, "Dark2"))
+```
+
+<p>Categoria più visitata per ciascun paese🌍</p>
+
+```{r echo=FALSE}
+#Instagram: categoria visionata per paese
+cat1MostVisio<-(instagram_glo %>%
+                    group_by(country, category.1) %>%
+                    summarize(count5 = n())
+                  )
+cat1MostVisio2<-(cat1MostVisio %>%
+                    group_by(country) %>%
+                    summarize(count5 = max(count5))
+                  )
+
+cat1MostVisio3 <- merge(x = cat1MostVisio, y = cat1MostVisio2, by = "country", all.x = TRUE)
+
+cat1MostVisio3 <- (cat1MostVisio3 %>% filter(count5.x == count5.y))
+cat1MostVisio3 <- (cat1MostVisio3 %>% select(country, category.1))
+
+grid.arrange(
+  tableGrob(cat1MostVisio3[1:12, 1:2]),
+  tableGrob(cat1MostVisio3[12:24, 1:2]),
+  nrow=1)
+```
+
+## <b>Andamento dei followers per piattaforma</b>
+
+```{r echo=FALSE}
+#Utenti
+#Tiktok: principali utenti (10) rappresentati con wordcloud o diagramma a ragno
+#Youtube: principali utenti (10) rappresentati con wordcloud o diagramma a ragno
+#Instagram: principali utenti (10) rappresentati con wordcloud o diagramma a ragno
+tiktokragno <- ( tiktok_glo %>%
+                   select(tiktoker.name, followers) %>%
+                   filter(followers>40000000))
+
+ragnotiktok <- plot_ly(tiktokragno,type = 'scatterpolar',r = ~followers,theta = ~tiktoker.name,fill = 'toself') 
+ragnotiktok<- ragnotiktok %>% layout(title = "Andamento🕷 dei followers👥: TikTok", polar = list(radialaxis = list(visible = T,range = c(0,150000000))),showlegend = F)
+ragnotiktok
+#diagramma a ragno youtube globale
+youtuberagno <- (youtube_glo %>%
+                  select(youtuber.name,followers) %>%
+                  filter(followers>50000000))
+
+ragnoyoutubeglo <- plot_ly(youtuberagno,type = 'scatterpolar',r = ~followers,theta = ~youtuber.name,fill = 'toself') 
+ragnoyoutubeglo <- ragnoyoutubeglo %>% layout(title = "Andamento🕷 dei followers👥: YouTube", polar = list(radialaxis = list(visible = T,range = c(0,250000000))),showlegend = F)
+ragnoyoutubeglo
+#diagramma a ragno instagram globale
+instagramragno <- (instagram_glo %>% 
+                     select(instagram.nickname, followers) %>%
+                     filter(followers>80000000)
+                   )
+ragnoinstagram <- plot_ly(instagramragno,type = 'scatterpolar',r = ~followers,theta = ~instagram.nickname,fill = 'toself') 
+ragnoinstagram <- ragnoinstagram %>% layout(title = "Andamento🕷 dei followers👥: Instagram", polar = list(radialaxis = list(visible = T,range = c(0,500000000))),showlegend = F)
+ragnoinstagram
+```
+
+<p>Quali delle tre piattaforme considerate hanno piu' followers👥?</p>
+
+```{r echo=FALSE}
+#somma dei followers tiktok
+tiktokragno <- (tiktokragno %>%
+                select(followers) %>%
+                summarise(followers=sum(followers, na.rm=TRUE)))
+#somma dei followers youtube
+youtuberagno <- (youtuberagno %>%
+                 select(followers) %>%
+                 summarise(followers=sum(followers, na.rm=TRUE)))
+#somma dei followers instagram
+instagramragno <- (instagramragno %>%
+                   select(followers) %>%
+                   summarise(followers=sum(followers, na.rm=TRUE)))
+#sommo i 3 valori e creo un nuovo dataset
+sumplattforms <- (data.frame(followers=c(1025500000,2132100000,7267300000),
+                             platforms=c('TikTok','YouTube','Instagram')))
+
+istogrammasomma <- plot_ly(sumplattforms,x=~platforms,y=~followers,name="Somma degli utenti per piattaforma",color=I("blue"),type="bar")
+istogrammasomma
+```
+
+## <b>Andamento degli followers per i maggiori influencers nell'arco temporale</b>
+
+```{r echo=FALSE}
+#Utenti: studio degli influencers nell'arco temporale
+
+tiktok_utenti_jun <- ( tiktok_jun %>%
+                         select(tiktoker.name, followers) %>%
+                         filter(followers>40000000, 
+                                tiktoker.name != "Dominik", 
+                                tiktoker.name != "Junya/じゅんや", 
+                                tiktoker.name !="Bella Poarch",
+                                tiktoker.name !="Zach King",
+                                tiktoker.name !="cznburak",
+                                tiktoker.name !="원정맨 WonJeong"
+                                ) %>%
+                         arrange(tiktoker.name)
+                       )
+tiktok_utenti_sep <- ( tiktok_sep %>%
+                         select(tiktoker.name, followers) %>%
+                         filter(followers>40000000, 
+                                tiktoker.name != "Carlos Feria", 
+                                tiktoker.name != "Loren Gray", 
+                                tiktoker.name !="Bella Poarch",
+                                tiktoker.name !="MrBeast",
+                                tiktoker.name !="cznburak",
+                                tiktoker.name !="dixie",
+                                tiktoker.name !="domelipa",
+                                tiktoker.name !="Jason Derulo") %>%
+                         arrange(tiktoker.name)
+                       )
+tiktok_utenti_nov <- ( tiktok_nov %>%
+                         select(tiktoker.name, followers) %>%
+                         filter(followers>40000000, 
+                                tiktoker.name != "Michael Le",
+                                tiktoker.name !="MrBeast",
+                                tiktoker.name !="dixie",
+                                tiktoker.name !="domelipa",
+                                tiktoker.name !="Zach King",
+                                tiktoker.name !="Jason Derulo",
+                                tiktoker.name !="원정맨 WonJeong") %>%
+                         arrange(tiktoker.name)
+                         )
+tiktok_utenti_dec <- ( tiktok_dec %>%
+                         select(tiktoker.name, followers) %>%
+                         filter(followers>40000000, 
+                                tiktoker.name !="Karol G", 
+                                tiktoker.name !="avani", 
+                                tiktoker.name !="Will Smith", 
+                                tiktoker.name !="Bella Poarch",
+                                tiktoker.name !="MrBeast",
+                                tiktoker.name !="Zach King",
+                                tiktoker.name !="cznburak",
+                                tiktoker.name !="dixie",
+                                tiktoker.name !="domelipa") %>%
+                         arrange(tiktoker.name)
+                       )
+ld <- list(
+  tiktok_utenti_jun,
+  tiktok_utenti_sep,
+  tiktok_utenti_nov,
+  tiktok_utenti_dec
+  )
+union_ld <- data.table::rbindlist(ld)
+union_ld <- ( union_ld %>%
+                arrange(tiktoker.name))
+
+data <- data.frame(tiktok_utenti_jun$tiktoker.name, tiktok_utenti_jun$followers, tiktok_utenti_sep$followers, tiktok_utenti_nov$followers, tiktok_utenti_dec$followers)
+data <- ( data %>% rename(influencer.name = tiktok_utenti_jun.tiktoker.name))
+
+fig <- plot_ly(data, x = ~influencer.name, y = ~tiktok_utenti_jun.followers, type = 'bar', name = "tiktok_utenti_jun")
+fig <- fig %>% add_trace(y = ~tiktok_utenti_sep.followers, name = "tiktok_utenti_sep")
+fig <- fig %>% add_trace(y = ~tiktok_utenti_nov.followers, name = "tiktok_utenti_nov")
+fig <- fig %>% add_trace(y = ~tiktok_utenti_dec.followers, name = "tiktok_utenti_dec")
+fig <- fig %>% layout(yaxis = list(title = 'followers'), barmode = 'group')
+fig <- fig %>% layout(title = "Crescita degli influencers👥 nell'arco temporale📅: TikTok")
+fig
+```
+
+```{r echo=FALSE}
+youtube_utenti_jun <- ( youtube_jun %>%
+                         select(youtuber.name, followers) %>%
+                         filter(followers>50000000, 
+                                youtuber.name != "ABS-CBN Entertainment",
+                                youtuber.name != "ABSCBNOnline",
+                                youtuber.name !="Aaj Tak",
+                                youtuber.name !="Alan Walker",
+                                youtuber.name !="BHOJPURIWAVE",
+                                youtuber.name !="Bad Bunny",
+                                youtuber.name !="BillionSurpriseToys - English Kids Songs & Cartoon",
+                                youtuber.name !="Cocomelon - Nursery Rhymes",
+                                youtuber.name !="Colors TV",
+                                youtuber.name !="Dude Perfect",
+                                youtuber.name !="El Reino Infantil",
+                                youtuber.name !="EminemMusic",
+                                youtuber.name !="Felipe Neto",
+                                youtuber.name !="Fernanfloo",
+                                youtuber.name !="Get Movies",
+                                youtuber.name !="HYBE LABELS",
+                                youtuber.name !="Infobells - Hindi",
+                                youtuber.name !="Katy Perry",
+                                youtuber.name !="Little Baby Bum - Nursery Rhymes & Kids Songs",
+                                youtuber.name !="Marshmello",
+                                youtuber.name !="Movieclips",
+                                youtuber.name !="Pinkfong Baby Shark - Kids' Songs & Stories",
+                                youtuber.name !="ReinoMariaElenaWalsh",
+                                youtuber.name !="SET India",
+                                youtuber.name !="Shemaroo",
+                                youtuber.name !="Shemaroo Filmi Gaane",
+                                youtuber.name !="ShemarooEnt",
+                                youtuber.name !="SmartBooksMedia",
+                                youtuber.name !="Sony Music India",
+                                youtuber.name !="Sony SAB",
+                                youtuber.name !="SonyMusicIndiaVEVO",
+                                youtuber.name !="Speed Records",
+                                youtuber.name !="T-Series",
+                                youtuber.name !="T-Series Bhakti Sagar",
+                                youtuber.name !="Taylor Swift",
+                                youtuber.name !="Tips Official",
+                                youtuber.name !="Você Sabia?",
+                                youtuber.name !="Voot Kids",
+                                youtuber.name !="Wave Music",
+                                youtuber.name !="YRF",
+                                youtuber.name !="Zee Music Company",
+                                youtuber.name !="Zee TV",
+                                youtuber.name !="aajtaktv",
+                                youtuber.name !="checkgate",
+                                youtuber.name !="colorstv",
+                                youtuber.name !="corycotton",
+                                youtuber.name !="elrubiusOMG",
+                                youtuber.name != "felipeneto",
+                                youtuber.name != "filmigaane",
+                                youtuber.name != "getmovies",
+                                youtuber.name != "ibighit",
+                                youtuber.name != "infobellshindirhymes",
+                                youtuber.name != "movieclips",
+                                youtuber.name != "sabtv",
+                                youtuber.name != "sonymusicindiaSME",
+                                youtuber.name != "sonymusicindiaVEVO",
+                                youtuber.name != "speedrecordss",
+                                youtuber.name != "tipsmusic",
+                                youtuber.name != "tseries",
+                                youtuber.name != "tseriesbhakti",
+                                youtuber.name != "vcsabiavideos",
+                                youtuber.name != "whinderssonnunes",
+                                youtuber.name != "yrf",
+                                youtuber.name != "zeemusiccompany",
+                                youtuber.name != "zeetv",
+                                youtuber.name != "LooLoo Kids - Nursery Rhymes and Children's Songs",
+                                youtuber.name != "LooLooKids"
+                                ) %>%
+                         arrange(youtuber.name)
+                       )
+youtube_utenti_sep <- ( youtube_sep %>%
+                         select(youtuber.name, followers) %>%
+                         filter(followers>50000000, 
+                                youtuber.name != "ABS-CBN Entertainment",
+                                youtuber.name !="Aaj Tak",
+                                youtuber.name != "ABSCBNOnline",
+                                youtuber.name !="Alan Walker",
+                                youtuber.name !="BHOJPURIWAVE",
+                                youtuber.name !="Bad Bunny",
+                                youtuber.name !="BillionSurpriseToys - English Kids Songs & Cartoon",
+                                youtuber.name !="Cocomelon - Nursery Rhymes",
+                                youtuber.name !="Colors TV",
+                                youtuber.name !="Dude Perfect",
+                                youtuber.name !="El Reino Infantil",
+                                youtuber.name !="EminemMusic",
+                                youtuber.name !="Felipe Neto",
+                                youtuber.name !="Fernanfloo",
+                                youtuber.name !="Get Movies",
+                                youtuber.name !="HYBE LABELS",
+                                youtuber.name !="Infobells - Hindi",
+                                youtuber.name !="Katy Perry",
+                                youtuber.name !="Little Baby Bum - Nursery Rhymes & Kids Songs",
+                                youtuber.name !="Marshmello",
+                                youtuber.name !="Movieclips",
+                                youtuber.name !="Pinkfong Baby Shark - Kids' Songs & Stories",
+                                youtuber.name !="ReinoMariaElenaWalsh",
+                                youtuber.name !="SET India",
+                                youtuber.name !="Shemaroo",
+                                youtuber.name !="Shemaroo Filmi Gaane",
+                                youtuber.name !="ShemarooEnt",
+                                youtuber.name !="SmartBooksMedia",
+                                youtuber.name !="Sony Music India",
+                                youtuber.name !="Sony SAB",
+                                youtuber.name !="SonyMusicIndiaVEVO",
+                                youtuber.name !="Speed Records",
+                                youtuber.name !="T-Series",
+                                youtuber.name !="T-Series Bhakti Sagar",
+                                youtuber.name !="Taylor Swift",
+                                youtuber.name !="Tips Official",
+                                youtuber.name !="Você Sabia?",
+                                youtuber.name !="Voot Kids",
+                                youtuber.name !="Wave Music",
+                                youtuber.name !="YRF",
+                                youtuber.name !="Zee Music Company",
+                                youtuber.name !="Zee TV",
+                                youtuber.name !="aajtaktv",
+                                youtuber.name !="checkgate",
+                                youtuber.name !="colorstv",
+                                youtuber.name !="corycotton",
+                                youtuber.name !="elrubiusOMG",
+                                youtuber.name != "felipeneto",
+                                youtuber.name != "filmigaane",
+                                youtuber.name != "getmovies",
+                                youtuber.name != "ibighit",
+                                youtuber.name != "infobellshindirhymes",
+                                youtuber.name != "movieclips",
+                                youtuber.name != "sabtv",
+                                youtuber.name != "sonymusicindiaSME",
+                                youtuber.name != "sonymusicindiaVEVO",
+                                youtuber.name != "speedrecordss",
+                                youtuber.name != "tipsmusic",
+                                youtuber.name != "tseries",
+                                youtuber.name != "tseriesbhakti",
+                                youtuber.name != "vcsabiavideos",
+                                youtuber.name != "whinderssonnunes",
+                                youtuber.name != "yrf",
+                                youtuber.name != "zeemusiccompany",
+                                youtuber.name != "zeetv",
+                                youtuber.name != "LooLoo Kids - Nursery Rhymes and Children's Songs",
+                                youtuber.name != "LooLooKids"
+                                ) %>%
+                         arrange(youtuber.name)
+                       )
+youtube_utenti_nov <- ( youtube_nov %>%
+                         select(youtuber.name, followers) %>%
+                         filter(followers>50000000, 
+                                youtuber.name != "ABS-CBN Entertainment",
+                                youtuber.name !="Aaj Tak",
+                                youtuber.name != "ABSCBNOnline",
+                                youtuber.name !="Alan Walker",
+                                youtuber.name !="BHOJPURIWAVE",
+                                youtuber.name !="Bad Bunny",
+                                youtuber.name !="BillionSurpriseToys - English Kids Songs & Cartoon",
+                                youtuber.name !="Cocomelon - Nursery Rhymes",
+                                youtuber.name !="Colors TV",
+                                youtuber.name !="Dude Perfect",
+                                youtuber.name !="El Reino Infantil",
+                                youtuber.name !="EminemMusic",
+                                youtuber.name !="Felipe Neto",
+                                youtuber.name !="Fernanfloo",
+                                youtuber.name !="Get Movies",
+                                youtuber.name !="HYBE LABELS",
+                                youtuber.name !="Infobells - Hindi",
+                                youtuber.name !="Katy Perry",
+                                youtuber.name !="Little Baby Bum - Nursery Rhymes & Kids Songs",
+                                youtuber.name !="Marshmello",
+                                youtuber.name !="Movieclips",
+                                youtuber.name !="Pinkfong Baby Shark - Kids' Songs & Stories",
+                                youtuber.name !="ReinoMariaElenaWalsh",
+                                youtuber.name !="SET India",
+                                youtuber.name !="Shemaroo",
+                                youtuber.name !="Shemaroo Filmi Gaane",
+                                youtuber.name !="ShemarooEnt",
+                                youtuber.name !="SmartBooksMedia",
+                                youtuber.name !="Sony Music India",
+                                youtuber.name !="Sony SAB",
+                                youtuber.name !="SonyMusicIndiaVEVO",
+                                youtuber.name !="Speed Records",
+                                youtuber.name !="T-Series",
+                                youtuber.name !="T-Series Bhakti Sagar",
+                                youtuber.name !="Taylor Swift",
+                                youtuber.name !="Tips Official",
+                                youtuber.name !="Você Sabia?",
+                                youtuber.name !="Voot Kids",
+                                youtuber.name !="Wave Music",
+                                youtuber.name !="YRF",
+                                youtuber.name !="Zee Music Company",
+                                youtuber.name !="Zee TV",
+                                youtuber.name !="aajtaktv",
+                                youtuber.name !="checkgate",
+                                youtuber.name !="colorstv",
+                                youtuber.name !="corycotton",
+                                youtuber.name !="elrubiusOMG",
+                                youtuber.name != "felipeneto",
+                                youtuber.name != "filmigaane",
+                                youtuber.name != "getmovies",
+                                youtuber.name != "ibighit",
+                                youtuber.name != "infobellshindirhymes",
+                                youtuber.name != "movieclips",
+                                youtuber.name != "sabtv",
+                                youtuber.name != "sonymusicindiaSME",
+                                youtuber.name != "sonymusicindiaVEVO",
+                                youtuber.name != "speedrecordss",
+                                youtuber.name != "tipsmusic",
+                                youtuber.name != "tseries",
+                                youtuber.name != "tseriesbhakti",
+                                youtuber.name != "vcsabiavideos",
+                                youtuber.name != "whinderssonnunes",
+                                youtuber.name != "yrf",
+                                youtuber.name != "zeemusiccompany",
+                                youtuber.name != "zeetv",
+                                youtuber.name != "LooLoo Kids - Nursery Rhymes and Children's Songs",
+                                youtuber.name != "LooLooKids"
+                                ) %>%
+                         arrange(youtuber.name)
+                         )
+youtube_utenti_dec <- ( youtube_dec %>%
+                         select(youtuber.name, followers) %>%
+                         filter(followers>50000000, 
+                                youtuber.name != "ABS-CBN Entertainment",
+                                youtuber.name !="Aaj Tak",
+                                youtuber.name != "ABSCBNOnline",
+                                youtuber.name !="Alan Walker",
+                                youtuber.name !="BHOJPURIWAVE",
+                                youtuber.name !="Bad Bunny",
+                                youtuber.name !="BillionSurpriseToys - English Kids Songs & Cartoon",
+                                youtuber.name !="Cocomelon - Nursery Rhymes",
+                                youtuber.name !="Colors TV",
+                                youtuber.name !="Dude Perfect",
+                                youtuber.name !="El Reino Infantil",
+                                youtuber.name !="EminemMusic",
+                                youtuber.name !="Felipe Neto",
+                                youtuber.name !="Fernanfloo",
+                                youtuber.name !="Get Movies",
+                                youtuber.name !="HYBE LABELS",
+                                youtuber.name !="Infobells - Hindi",
+                                youtuber.name !="Katy Perry",
+                                youtuber.name !="Little Baby Bum - Nursery Rhymes & Kids Songs",
+                                youtuber.name !="Marshmello",
+                                youtuber.name !="Movieclips",
+                                youtuber.name !="Pinkfong Baby Shark - Kids' Songs & Stories",
+                                youtuber.name !="ReinoMariaElenaWalsh",
+                                youtuber.name !="SET India",
+                                youtuber.name !="Shemaroo",
+                                youtuber.name !="Shemaroo Filmi Gaane",
+                                youtuber.name !="ShemarooEnt",
+                                youtuber.name !="SmartBooksMedia",
+                                youtuber.name !="Sony Music India",
+                                youtuber.name !="Sony SAB",
+                                youtuber.name !="SonyMusicIndiaVEVO",
+                                youtuber.name !="Speed Records",
+                                youtuber.name !="T-Series",
+                                youtuber.name !="T-Series Bhakti Sagar",
+                                youtuber.name !="Taylor Swift",
+                                youtuber.name !="Tips Official",
+                                youtuber.name !="Você Sabia?",
+                                youtuber.name !="Voot Kids",
+                                youtuber.name !="Wave Music",
+                                youtuber.name !="YRF",
+                                youtuber.name !="Zee Music Company",
+                                youtuber.name !="Zee TV",
+                                youtuber.name !="aajtaktv",
+                                youtuber.name !="checkgate",
+                                youtuber.name !="colorstv",
+                                youtuber.name !="corycotton",
+                                youtuber.name !="elrubiusOMG",
+                                youtuber.name != "felipeneto",
+                                youtuber.name != "filmigaane",
+                                youtuber.name != "getmovies",
+                                youtuber.name != "ibighit",
+                                youtuber.name != "infobellshindirhymes",
+                                youtuber.name != "movieclips",
+                                youtuber.name != "sabtv",
+                                youtuber.name != "sonymusicindiaSME",
+                                youtuber.name != "sonymusicindiaVEVO",
+                                youtuber.name != "speedrecordss",
+                                youtuber.name != "tipsmusic",
+                                youtuber.name != "tseries",
+                                youtuber.name != "tseriesbhakti",
+                                youtuber.name != "vcsabiavideos",
+                                youtuber.name != "whinderssonnunes",
+                                youtuber.name != "yrf",
+                                youtuber.name != "zeemusiccompany",
+                                youtuber.name != "zeetv",
+                                youtuber.name != "LooLoo Kids - Nursery Rhymes and Children's Songs",
+                                youtuber.name != "LooLooKids"
+                                ) %>%
+                         arrange(youtuber.name)
+                       )
+ld <- list(
+  youtube_utenti_jun,
+  youtube_utenti_sep,
+  youtube_utenti_nov,
+  youtube_utenti_dec
+  )
+union_ld <- data.table::rbindlist(ld)
+union_ld <- ( union_ld %>%
+                arrange(youtuber.name))
+
+data <- data.frame(youtube_utenti_jun$youtuber.name, youtube_utenti_jun$followers, youtube_utenti_sep$followers, youtube_utenti_nov$followers, youtube_utenti_dec$followers)
+data <- ( data %>% rename(influencer.name = youtube_utenti_jun.youtuber.name))
+
+fig <- plot_ly(data, x = ~influencer.name, y = ~youtube_utenti_jun.followers, type = 'bar', name = "youtube_utenti_jun")
+fig <- fig %>% add_trace(y = ~youtube_utenti_sep.followers, name = "youtube_utenti_sep")
+fig <- fig %>% add_trace(y = ~youtube_utenti_nov.followers, name = "youtube_utenti_nov")
+fig <- fig %>% add_trace(y = ~youtube_utenti_dec.followers, name = "youtube_utenti_dec")
+fig <- fig %>% layout(yaxis = list(title = 'followers'), barmode = 'group')
+fig <- fig %>% layout(title = "Crescita degli influencers👥 nell'arco temporale📅: YouTube")
+fig
+```
+
+```{r echo=FALSE}
+instagram_utenti_jun <- ( instagram_jun %>%
+                         select(influencer.name, followers) %>%
+                         filter(followers>200000000, 
+                                influencer.name != "Barbie", 
+                                influencer.name != "Beyoncé",
+                                influencer.name != "Dwayne Johnson",
+                                influencer.name != "Khloé Kardashian",
+                                influencer.name != "Kim Kardashian", 
+                                influencer.name != "Kourtney Kardashian Barker", 
+                                influencer.name != "therock" 
+                                ) %>%
+                         arrange(influencer.name)
+                       )
+instagram_utenti_sep <- ( instagram_sep %>%
+                         select(influencer.name, followers) %>%
+                         filter(followers>200000000, 
+                                influencer.name != "Barbie", 
+                                influencer.name != "Beyoncé",
+                                influencer.name != "Dwayne Johnson",
+                                influencer.name != "Khloé Kardashian",
+                                influencer.name != "Kim Kardashian", 
+                                influencer.name != "Kourtney Kardashian Barker", 
+                                influencer.name != "therock"  
+                         ) %>%
+                         arrange(influencer.name)
+                       )
+instagram_utenti_nov <- ( instagram_nov %>%
+                         select(influencer.name, followers) %>%
+                         filter(followers>200000000, 
+                                influencer.name != "Barbie", 
+                                influencer.name != "Beyoncé",
+                                influencer.name != "Dwayne Johnson",
+                                influencer.name != "Khloé Kardashian",
+                                influencer.name != "Kim Kardashian", 
+                                influencer.name != "Kourtney Kardashian Barker", 
+                                influencer.name != "therock" 
+                                ) %>%
+                         arrange(influencer.name)
+                         )
+instagram_utenti_dec <- ( instagram_dec %>%
+                         select(influencer.name, followers) %>%
+                         filter(followers>200000000, 
+                                influencer.name != "Barbie", 
+                                influencer.name != "Beyoncé",
+                                influencer.name != "Dwayne Johnson",
+                                influencer.name != "Khloé Kardashian",
+                                influencer.name != "Kim Kardashian", 
+                                influencer.name != "Kourtney Kardashian Barker", 
+                                influencer.name != "therock"  
+                                ) %>%
+                         arrange(influencer.name)
+                       )
+ld <- list(
+  instagram_utenti_jun,
+  instagram_utenti_sep,
+  instagram_utenti_nov,
+  instagram_utenti_dec
+  )
+union_ld <- data.table::rbindlist(ld)
+union_ld <- ( union_ld %>%
+                arrange(influencer.name))
+
+data <- data.frame(instagram_utenti_jun$influencer.name, instagram_utenti_jun$followers, instagram_utenti_sep$followers, instagram_utenti_nov$followers, instagram_utenti_dec$followers)
+data <- ( data %>% rename(influencer.name = instagram_utenti_jun.influencer.name))
+
+fig <- plot_ly(data, x = ~influencer.name, y = ~instagram_utenti_jun.followers, type = 'bar', name = "instagram_utenti_jun")
+fig <- fig %>% add_trace(y = ~instagram_utenti_sep.followers, name = "instagram_utenti_sep")
+fig <- fig %>% add_trace(y = ~instagram_utenti_nov.followers, name = "instagram_utenti_nov")
+fig <- fig %>% add_trace(y = ~instagram_utenti_dec.followers, name = "instagram_utenti_dec")
+fig <- fig %>% layout(yaxis = list(title = 'followers'), barmode = 'group')
+fig <- fig %>% layout(title = "Crescita degli influencers👥 nell'arco temporale📅: Instagram")
+fig
+```
+
+## <b>Andamento delle interazioni per i maggiori influencers nell'arco temporale</b>
+
+```{r echo=FALSE}
+
+tiktok_jun_lcs <- (tiktok_jun %>%
+                     select(tiktoker.name, likes.avg) %>%
+                     filter(likes.avg>800000) %>% 
+                     mutate(month = "jun")
+               )
+tiktok_sep_lcs <- (tiktok_sep %>%
+                     select(tiktoker.name, likes.avg) %>%
+                     filter(likes.avg>800000) %>% 
+                     mutate(month = "sep")
+               )
+tiktok_nov_lcs <- (tiktok_nov %>%
+                     select(tiktoker.name, likes.avg) %>%
+                     filter(likes.avg>800000) %>% 
+                     mutate(month = "nov")
+               )
+tiktok_dec_lcs <- (tiktok_dec %>%
+                     select(tiktoker.name, likes.avg) %>%
+                     filter(likes.avg>800000) %>% 
+                     mutate(month = "dec")
+               )
+ld <- list(
+  tiktok_jun_lcs,
+  tiktok_sep_lcs,
+  tiktok_nov_lcs,
+  tiktok_dec_lcs
+  )
+union_ld <- data.table::rbindlist(ld)
+union_ld <- ( union_ld %>%
+                arrange(tiktoker.name))
+union_ld <- ( union_ld %>%
+                group_by(tiktoker.name) %>% filter(n() == 4))
+
+# union_ld[13, 2] = 870600
+union_ld[13, 3] = "jun"
+# union_ld[14, 2] = 992500
+
+jun <- ( union_ld %>%
+           select(tiktoker.name, likes.avg, month) %>%
+           rename (likes.avg_jun = likes.avg) %>%
+           filter(month == "jun") )
+sep <- ( union_ld %>%
+           select(tiktoker.name, likes.avg, month) %>%
+           rename (likes.avg_sep = likes.avg) %>%
+           filter(month == "sep") )
+nov <- ( union_ld %>%
+           select(tiktoker.name, likes.avg, month) %>%
+           rename (likes.avg_nov= likes.avg) %>%
+           filter(month == "nov") )
+dec <- ( union_ld %>%
+           select(tiktoker.name, likes.avg, month) %>%
+           rename (likes.avg_dec = likes.avg) %>%
+           filter(month == "dec") )
+
+data <- data.frame(jun$tiktoker.name, jun$likes.avg_jun, sep$likes.avg_sep, nov$likes.avg_nov, dec$likes.avg_dec)
+data <- ( data %>% rename(tiktoker.name = jun.tiktoker.name, 
+                          likes.avg_jun = jun.likes.avg_jun, 
+                          likes.avg_sep = sep.likes.avg_sep, 
+                          likes.avg_nov = nov.likes.avg_nov, 
+                          likes.avg_dec = dec.likes.avg_dec))
+
+fig <- plot_ly(data, x = ~tiktoker.name, y = ~likes.avg_jun, type = 'bar', name = "tiktok_likes.avg_jun")
+fig <- fig %>% add_trace(y = ~likes.avg_sep, name = "tiktok_likes.avg_sep")
+fig <- fig %>% add_trace(y = ~likes.avg_nov, name = "tiktok_likes.avg_nov")
+fig <- fig %>% add_trace(y = ~likes.avg_dec, name = "tiktok_likes.avg_dec")
+fig <- fig %>% layout(yaxis = list(title = 'likes'), barmode = 'group')
+fig <- fig %>% layout(title = 'TikTok influencers likes👍 nell’arco temporale📅')
+fig
+```
+
+```{r echo=FALSE}
+
+youtube_jun_lcs <- (youtube_jun %>%
+                     select(channel.name, likes.avg) %>%
+                     filter(likes.avg>200000) %>% 
+                     mutate(month = "jun")
+               )
+youtube_sep_lcs <- (youtube_sep %>%
+                     select(channel.name, likes.avg) %>%
+                     filter(likes.avg>200000) %>% 
+                     mutate(month = "sep")
+               )
+youtube_nov_lcs <- (youtube_nov %>%
+                     select(channel.name, likes.avg) %>%
+                     filter(likes.avg>200000) %>% 
+                     mutate(month = "nov")
+               )
+youtube_dec_lcs <- (youtube_dec %>%
+                     select(channel.name, likes.avg) %>%
+                     filter(likes.avg>200000) %>% 
+                     mutate(month = "dec")
+               )
+ld <- list(
+  youtube_jun_lcs,
+  youtube_sep_lcs,
+  youtube_nov_lcs,
+  youtube_dec_lcs
+  )
+union_ld <- data.table::rbindlist(ld)
+union_ld <- ( union_ld %>%
+                arrange(channel.name))
+union_ld <- ( union_ld %>%
+                group_by(channel.name) %>% filter(n() == 4))
+
+jun <- ( union_ld %>%
+           select(channel.name, likes.avg, month) %>%
+           rename (likes.avg_jun = likes.avg) %>%
+           filter(month == "jun") )
+sep <- ( union_ld %>%
+           select(channel.name, likes.avg, month) %>%
+           rename (likes.avg_sep = likes.avg) %>%
+           filter(month == "sep") )
+nov <- ( union_ld %>%
+           select(channel.name, likes.avg, month) %>%
+           rename (likes.avg_nov= likes.avg) %>%
+           filter(month == "nov") )
+dec <- ( union_ld %>%
+           select(channel.name, likes.avg, month) %>%
+           rename (likes.avg_dec = likes.avg) %>%
+           filter(month == "dec") )
+
+data <- data.frame(jun$channel.name, jun$likes.avg_jun, sep$likes.avg_sep, nov$likes.avg_nov, dec$likes.avg_dec)
+data <- ( data %>% rename(channel.name = jun.channel.name, 
+                          likes.avg_jun = jun.likes.avg_jun, 
+                          likes.avg_sep = sep.likes.avg_sep, 
+                          likes.avg_nov = nov.likes.avg_nov, 
+                          likes.avg_dec = dec.likes.avg_dec))
+
+fig <- plot_ly(data, x = ~channel.name, y = ~likes.avg_jun, type = 'bar', name = "youtube_likes.avg_jun")
+fig <- fig %>% add_trace(y = ~likes.avg_sep, name = "youtube_likes.avg_sep")
+fig <- fig %>% add_trace(y = ~likes.avg_nov, name = "youtube_likes.avg_nov")
+fig <- fig %>% add_trace(y = ~likes.avg_dec, name = "youtube_likes.avg_dec")
+fig <- fig %>% layout(yaxis = list(title = 'likes'), barmode = 'group')
+fig <- fig %>% layout(title = 'YouTube influencers likes👍 nell’arco temporale📅')
+fig
+```
+
+<p>Non considereremo instagram_jun perchè il dataset purtroppo risultava fin in origine corrotto.</p>
+
+```{r echo=FALSE}
+#Instagram: influencers con le maggiori interazioni; sep
+instagram_sep_ii <- (instagram_sep %>%
+                       select(interactions, influencer.name) %>%
+                       filter(interactions>400000000000000, #quattrocento bilioni
+                              influencer.name!="BILLIE EILISH",
+                              influencer.name!="Beyoncé",
+                              influencer.name!="JIMIN",
+                              influencer.name!="Kendall",
+                              influencer.name!="Kim Kardashian",
+                              influencer.name!="Kylian Mbappé",
+                              influencer.name!="NJ 🇧🇷",
+                              influencer.name!="Tom Holland",
+                              influencer.name!="Zendaya"
+                       )
+                     )
+
+#Instagram: influencers con le maggiori interazioni; nov
+instagram_nov_ii <- (instagram_nov %>%
+                       select(interactions, influencer.name) %>%
+                       filter(interactions>400000000000000, #quattrocento bilioni
+                              influencer.name!="BILLIE EILISH",
+                              influencer.name!="Beyoncé",
+                              influencer.name!="JIMIN",
+                              influencer.name!="Kendall",
+                              influencer.name!="Kim Kardashian",
+                              influencer.name!="Kylian Mbappé",
+                              influencer.name!="NJ 🇧🇷",
+                              influencer.name!="Tom Holland",
+                              influencer.name!="Zendaya"
+                       )
+                     )
+
+#Instagram: influencers con le maggiori interazioni; dec
+instagram_dec_ii <- (instagram_dec %>%
+                       select(interactions, influencer.name) %>%
+                       filter(interactions>400000000000000, #quattrocento bilioni
+                              influencer.name!="BILLIE EILISH",
+                              influencer.name!="Beyoncé",
+                              influencer.name!="JIMIN",
+                              influencer.name!="Kendall",
+                              influencer.name!="Kim Kardashian",
+                              influencer.name!="Kylian Mbappé",
+                              influencer.name!="NJ 🇧🇷",
+                              influencer.name!="Tom Holland",
+                              influencer.name!="Zendaya"
+                       )
+                     )
+
+ld <- list(
+  instagram_sep_ii,
+  instagram_nov_ii,
+  instagram_dec_ii
+  )
+union_ld <- data.table::rbindlist(ld)
+union_ld <- ( union_ld %>%
+                arrange(influencer.name))
+
+data <- data.frame(instagram_sep_ii$influencer.name, instagram_sep_ii$interactions, instagram_nov_ii$interactions, instagram_dec_ii$interactions)
+data <- ( data %>% rename(influencer.name = instagram_sep_ii.influencer.name))
+
+fig <- plot_ly(data, x = ~influencer.name, y = ~instagram_sep_ii.interactions, type = 'bar', name = "instagram_sep_interactions")
+fig <- fig %>% add_trace(y = ~instagram_nov_ii.interactions, name = "instagram_nov_interactions")
+fig <- fig %>% add_trace(y = ~instagram_dec_ii.interactions, name = "instagram_dec_interactions")
+fig <- fig %>% layout(yaxis = list(title = 'interactions'), barmode = 'group')
+fig <- fig %>% layout(title = 'Instagram influencers interactions👍🗨🔁 nell’arco temporale📅')
+fig
+```
+
+```{r echo=FALSE}
+#Instagram: influencers con le maggiori interazioni medie; sep
+instagram_sep_iai <- (instagram_sep %>%
+                       select(interactions.avg, influencer.name) %>%
+                       filter(interactions.avg>400000000000000, #quattrocento bilioni
+                              influencer.name!="Beyoncé",
+                              influencer.name!="JIMIN",
+                              influencer.name!="Kendall",
+                              influencer.name!="Kim Kardashian",
+                              influencer.name!="Kylian Mbappé",
+                              influencer.name!="NJ 🇧🇷",
+                              influencer.name!="Tom Holland",
+                              influencer.name!="Zendaya",
+                              influencer.name!="Justin Bieber",
+                              influencer.name!="Kourtney Kardashian Barker"
+                       )
+                     )
+
+#Instagram: influencers con le maggiori interazioni medie; nov
+instagram_nov_iai <- (instagram_nov %>%
+                       select(interactions.avg, influencer.name) %>%
+                       filter(interactions.avg>400000000000000, #quattrocento bilioni
+                              influencer.name!="Beyoncé",
+                              influencer.name!="JIMIN",
+                              influencer.name!="Kendall",
+                              influencer.name!="Kim Kardashian",
+                              influencer.name!="Kylian Mbappé",
+                              influencer.name!="NJ 🇧🇷",
+                              influencer.name!="Tom Holland",
+                              influencer.name!="Zendaya",
+                              influencer.name!="Justin Bieber",
+                              influencer.name!="Kourtney Kardashian Barker"
+                       )
+                     )
+#Instagram: influencers con le maggiori interazioni medie; dec
+instagram_dec_iai <- (instagram_dec %>%
+                       select(interactions.avg, influencer.name) %>%
+                       filter(interactions.avg>400000000000000, #quattrocento bilioni
+                              influencer.name!="Beyoncé",
+                              influencer.name!="JIMIN",
+                              influencer.name!="Kendall",
+                              influencer.name!="Kim Kardashian",
+                              influencer.name!="Kylian Mbappé",
+                              influencer.name!="NJ 🇧🇷",
+                              influencer.name!="Tom Holland",
+                              influencer.name!="Zendaya",
+                              influencer.name!="Justin Bieber",
+                              influencer.name!="Kourtney Kardashian Barker"
+                       )
+                     )
+ld <- list(
+  instagram_sep_iai,
+  instagram_nov_iai,
+  instagram_dec_iai
+  )
+union_ld <- data.table::rbindlist(ld)
+union_ld <- ( union_ld %>%
+                arrange(influencer.name))
+
+data <- data.frame(instagram_sep_iai$influencer.name, instagram_sep_iai$interactions.avg, instagram_nov_iai$interactions.avg, instagram_dec_iai$interactions.avg)
+data <- ( data %>% rename(influencer.name = instagram_sep_iai.influencer.name))
+
+fig <- plot_ly(data, x = ~influencer.name, y = ~instagram_sep_iai.interactions.avg, type = 'bar', name = "instagram_sep_interactions.avg")
+fig <- fig %>% add_trace(y = ~instagram_nov_iai.interactions.avg, name = "instagram_nov_interactions.avg")
+fig <- fig %>% add_trace(y = ~instagram_dec_iai.interactions.avg, name = "instagram_dec_interactions.avg")
+fig <- fig %>% layout(yaxis = list(title = 'interactions.avg'), barmode = 'group')
+fig <- fig %>% layout(title = 'Instagram influencers interactions.avg👍🗨🔁 nell’arco temporale📅')
+fig
+```
+
+
+## <b>Considerazioni conclusive e ipotetici studi che si possono approfondire</b>
+<p>Vista e considerata la difficoltà nel lavorare e produrre delle analisi fondate sul dataset, proporrei innanzitutto una ridefinizione del dataset, principalmente per la presenza di valori discordanti o errati, poca chiarezza nella lettura e comprensione dei dataset e nessun riferimento da parte dell'autore.</p>
